@@ -14,12 +14,28 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\User::class, function (Faker $faker) {
-    static $password;
-
     return [
-        'name' => $faker->name,
+        'name' => '',
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'avatar' => $faker->imageUrl($width = 400, $height = 400, 'people'),
+        'avatar_original' => '',
         'remember_token' => str_random(10),
+        'gender' => '',
+        'token' => '',
     ];
+});
+
+$factory->state(App\User::class, 'male', function ($faker){
+    return [
+        'name' => $faker->firstNameMale . ' ' . $faker->lastName,
+        'gender' => 'male'
+
+    ];
+});
+
+$factory->state(App\User::class, 'female', function ($faker){
+   return [
+       'name' => $faker->firstNameFemale . ' ' . $faker->lastName,
+       'gender' => 'female'
+   ];
 });
